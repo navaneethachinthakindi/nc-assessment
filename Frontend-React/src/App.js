@@ -3,6 +3,7 @@ import { Image, Alert, Button, Container, Row, Col, Form, Table, Stack } from 'r
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+
 const axiosInstance = axios.create({
   baseURL: 'https://localhost:5001/api'
 });
