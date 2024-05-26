@@ -7,8 +7,9 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
-    "axios": "^1.2.2",
+    "axios": "^1.7.2",
     "bootstrap": "^5.2.3",
+    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "node-sass": "^8.0.0",
     "react": "^18.2.0",
@@ -18,7 +19,9 @@
     "web-vitals": "^3.1.1"
   },
   "scripts": {
-    "start": "cross-env BROWSER=chrome react-scripts start",
+    "start:client": "cross-env BROWSER=chrome react-scripts start",
+    "start:server": "\"cd ..\\Backend\\TodoList.Api\\  && dotnet run --project .\\TodoList.Api\\ \" ",
+    "start": " concurrently \"npm run start:client\" \"npm run start:server\" ",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

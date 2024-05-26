@@ -1,8 +1,11 @@
 import './App.css'
 import { Image, Alert, Button, Container, Row, Col, Form, Table, Stack } from 'react-bootstrap'
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
-const axios = require('axios')
+const axiosInstance = axios.create({
+  baseURL: 'https://localhost:5001/api'
+});
 
 const App = () => {
   const [description, setDescription] = useState('')
@@ -10,6 +13,13 @@ const App = () => {
 
   useEffect(() => {
     // todo
+    axiosInstance.get('/TodoItems')
+      .then(response => {
+        setItems(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }, [])
 
   const renderAddTodoItemContent = () => {
@@ -81,21 +91,40 @@ const App = () => {
 
   const handleDescriptionChange = (event) => {
     // todo
+    setDescription(()=> event.target.value);
   }
 
   async function getItems() {
     try {
-      alert('todo')
+      axiosInstance.get('/TodoItems')
+      .then(response => {
+        setItems(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
     } catch (error) {
-      console.error(error)
+      console.log(error);
     }
   }
 
   async function handleAdd() {
+    const todoItem = {
+      Description: description,
+      IsCompleted:false
+    };
+
     try {
-      alert('todo')
+      axiosInstance.post('/TodoItems', { todoItem })
+        .then(response => {
+          getItems();
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     } catch (error) {
-      console.error(error)
+      console.log(error);
     }
   }
 
@@ -105,9 +134,25 @@ const App = () => {
 
   async function handleMarkAsComplete(item) {
     try {
-      alert('todo')
+      //alert('todo')
+      
+    const todoItem = {
+      Id: item.id,
+      Description: item.description,
+      IsCompleted:true
+    };
+      
+    axiosInstance.put('/TodoItems', { id : item.id, todoItem })
+        .then(response => {
+          getItems();
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
     } catch (error) {
-      console.error(error)
+      console.log(error);
     }
   }
 
